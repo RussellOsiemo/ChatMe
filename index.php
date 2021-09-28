@@ -18,7 +18,7 @@
         <section class="form signup" >
             <header>Chat With Fellow Programmers </header>
             <form  action="#">
-<div class="error-txt">This is an error message!</div>
+<div class="error-txt"></div>
      <div class="name-details">
          <div class="field input">
             <label>First Name</label>
@@ -47,7 +47,7 @@
            <input type="submit" value="Sign up to Connect">
         </div>
            
-           <div class="link">Already a member ? <a href="login.html">Login Now</a></div>
+           <div class="link">Already a member ? <a href="login.php">Login Now</a></div>
         </div>
 
         </div>

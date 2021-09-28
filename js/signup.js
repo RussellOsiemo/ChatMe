@@ -1,7 +1,9 @@
 const form = document.querySelector(".signup form"),
 continueBtn = form.querySelector(".button input");
+errorText = form.querySelector(".error-txt");
 form.onSubmit = (e)=>{
-    e.preventDefault();//prevent form from submitting
+    e.preventDefault();//prevent form from submitting pre existing values or empty
+
 }
 continueBtn.onclick = ()=>{
     //Starting ajax
@@ -11,12 +13,17 @@ continueBtn.onclick = ()=>{
      if(xhr.readyState === XMLHttpRequest.DONE){
          if(xhr.status == 200){
              let data = xhr.response;//gives the response of that passed url
-             console.log(data); 
+             if(data == "success"){
+
+             }else{
+                  errorText.style.display = "block";
+                  errorText.textContent = data
+             }
          }
      }
    }
    //sending form data to php using ajax
-   let formData = new formData();//creating new formData object
+   let formData = new FormData();//creating new formData object
 xhr.send(formData);//sending form data to php
 
 }

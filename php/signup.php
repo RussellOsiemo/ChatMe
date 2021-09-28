@@ -9,7 +9,7 @@ $password=mysqli_real_escape_string($conn, $_POST['password']);
 
 if(!empty($fname) && !empty($lname) && !empty($email) && !empty($password)){
 // check if user email is valid
-if(filter_var($email, FILTER_VALIDATE__EMAIL));{//if email is valid
+if(filter_var($email,FILTER_VALIDATE_EMAIL));{//if email is valid
 //check if email already exists
 $sql=mysqli_query($conn,"SELECT email FROM users WHERE email='{$email}'" );
 if(mysqli_num_rows($sql) > 0 ){
@@ -36,16 +36,27 @@ if(mysqli_num_rows($sql) > 0 ){
           //we need to save the images in a particular folder
 
          
-          $new_img_name= $time_img_name;
+          $new_img_name= $time.$img_name;
           if(move_uploaded_file($tmp_name , "image/".$new_img_name)){//if user uploads img move to image folder
             $status = "Active Now";//whenever user has signed in the status will be active now
             $random_id = rand(time(), 10000000);//creating random id for users
 
 
             //let's insert all user data to a table in db
-            $sql2 = mysqli_query($conn, "INSERT INTO users( unique_id, fname, lname, email,password, image,status )"
-              VALUES())
-          }
+            $sql2 = mysqli_query($conn, "INSERT INTO users( unique_id, fname, lname, email,password, image,status )
+              VALUES( {$random_id}, '{$fname}', '{$lname}', '{$email}', '{$password}', '{$new_img_name}', '{$status}')");
+         if($sql2){
+             //if data is inserted       
+             $sql3= mysqli_query($conn,"SELECT * FROM users WHERE email = '{$email}'") ;                                                            
+             if(mysqli_num_rows($sql3) > 0){
+                 $row = mysqli_fetch_assoc($sql3);
+                 $_SESSION['unique_id'] = $row['unique_id'];//using this session we will have  a user unique_id in other php files
+                 echo "success";
+             }
+            }else{
+             echo "Something Went wrong!";
+         }
+        }
            
         }else{
              echo "select an image file with valid extensions .jpg ,.jpeg or .png";
@@ -55,10 +66,10 @@ if(mysqli_num_rows($sql) > 0 ){
             }
 }
 }
+// else{
+ echo "$email-this email address is invalid ";}
+// }
 else{
-    echo "$email-this email address is invalid ";
-}
-}else{
     echo "All Input Fields need to be filled out";
 }
 ?> 
